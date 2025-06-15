@@ -1,6 +1,6 @@
 import express from 'express';
 
-const app =express();
+const app = express();
 const port = 3000;
 
 app.use(express.json());
@@ -21,7 +21,11 @@ app.put('/api/v1/user/blog', (req, res) => {
     res.send('Hello Express');
 })
 
-app.post('/api/v1/user/blog/blog', (req, res) => {
+app.get('/api/v1/user/blog', (req, res) => {
+    res.send('Hello Express');
+})
+
+app.get('/api/v1/user/blog/blog', (req, res) => {
     res.send('Hello Express');
 })
 
