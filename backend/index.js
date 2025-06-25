@@ -16,6 +16,20 @@ app.use(express.json());
 const databaseUrl = process.env.DATABASE_URL;
 console.log("Database URL: ", databaseUrl);
 
+app.use('/api/v1/blog', async (req, res, next) => {
+    const header = req.header('authorization') || "";
+    try{
+        const token = header.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        req.user = decoded;
+
+        next();
+    } catch (err) {
+        return res.status(403).json({error: 'unauuthorized' });
+    }
+});
+
 app.post('/api/v1/user/signup', async (req, res) => {
     // const { email, password } = req.body;
     const email = req.body.email;
