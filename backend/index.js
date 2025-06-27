@@ -31,7 +31,7 @@ app.post('/api/v1/user/signup', async (req, res) => {
             },
         });
 
-        const token = jwt.sign({ id: user.id }, 'secret'); 
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET); 
 
         res.status(201).json({ jwt: token });
     } catch (err) {
@@ -45,9 +45,33 @@ app.post('/api/v1/user/signup', async (req, res) => {
     }
 });
 
-app.post('/api/v1/user/signin', (req, res) => {
-    res.send('Hello Express');
-})
+app.post('/api/v1/user/signin', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email }
+        });
+
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+
+        return res.status(200).json({ jwt: token });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Sign-in failed' });
+    }
+});
 
 app.post('/api/v1/user/blog', (req, res) => {
     res.send('Hello Express');
