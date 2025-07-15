@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { signupInput } from "./src/routes/zod.js";
+import { signupInput, signinInput } from "./common/src/index.js";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 const userRouter = express.Router();
@@ -49,6 +49,15 @@ userRouter.post('/signup', async (req, res) => {
   });
 
 userRouter.post('/signin', async (req, res) => {
+    const body = req.body;
+  
+    const result = signinInput.safeParse(body);
+    if (!result.success) {
+        return res.status(411).json({
+          message: "Inputs not correct"
+        });
+      }
+
     const { email, password } = req.body;
 
     try {
