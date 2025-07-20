@@ -3,13 +3,14 @@ import { PrismaClient } from '@prisma/client';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { signupInput, signinInput } from "./common/src/index.js";
+import { signupInput, signinInput } from "../../../common/src/index.js";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 const userRouter = express.Router();
 
 userRouter.post('/signup', async (req, res) => {
     const body = req.body;
+    console.log("Signup body received:", body);
   
     const result = signupInput.safeParse(body);
   
@@ -58,7 +59,7 @@ userRouter.post('/signin', async (req, res) => {
         });
       }
 
-    const { email, password } = req.body;
+      const { email, password, username, name } = result.data;
 
     try {
         const user = await prisma.user.findUnique({ where: { email } });

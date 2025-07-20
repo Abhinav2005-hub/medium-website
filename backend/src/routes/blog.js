@@ -2,7 +2,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import jwt from 'jsonwebtoken';
-import { createBlogInput, updateBlogInput } from '../../common/src/index.js'; 
+import { createBlogInput, updateBlogInput } from "../../../common/src/index.js";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 const blogRouter = express.Router();
