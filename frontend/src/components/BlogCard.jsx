@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export const BlogCard = ({ authorName, title, content, publishedDate }) => {
-  return (
-    <div className="p-4 border-b border-slate-200 pb-4">
+export const BlogCard = ({ id, authorName, title, content, publishedDate }) => {
+  return <Link to ={`/blog/${id}`}>
+    <div className="p-4 border-b border-slate-200 pb-4 w-screen max-w-md">
       <div className="flex">
         <Avatar name={authorName} />
         <div className="font-extralight pl-2 text-sm flex justify-center flex-col">
@@ -25,7 +26,7 @@ export const BlogCard = ({ authorName, title, content, publishedDate }) => {
         {`${Math.ceil(content.length / 100)} minute(s) read`}
       </div>
     </div>
-  );
+    </Link>;
 };
 
 BlogCard.propTypes = {
