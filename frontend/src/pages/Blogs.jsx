@@ -19,7 +19,7 @@ export const Blogs = () => {
           },
         });
 
-        setBlogs(response.data);
+        setBlogs(response.data.blogs);
       } catch (err) {
         console.error("Error fetching blogs:", err);
       } finally {
@@ -27,7 +27,7 @@ export const Blogs = () => {
       }
     };
 
-    fetchBlogs();
+    fetchBlogs();  
   }, []);
 
   if (loading) {

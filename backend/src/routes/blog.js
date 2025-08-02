@@ -97,9 +97,6 @@ blogRouter.get('/', async (req, res) => {
 blogRouter.get('/bulk', async (req, res) => {
   try {
     const blogs = await prisma.blog.findMany({
-      where: {
-        id: Number(id)
-      },
       select: {
         content: true,
         title: true,
@@ -111,7 +108,7 @@ blogRouter.get('/bulk', async (req, res) => {
         }
       }
     });
-    res.json(blogs);
+    res.json({ blogs });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error fetching blogs' });
