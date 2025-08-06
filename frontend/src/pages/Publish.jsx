@@ -2,8 +2,11 @@ import { Appbar } from '../components/Appbar.jsx';
 import axios from 'axios';
 import { BACKEND_URL } from '../config.js'
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export const Publish = () => {
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
       return (
